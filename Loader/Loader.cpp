@@ -33,19 +33,15 @@ int main() {
     char* outputData;
     int outputDataLen = 0;
     PVOID specialParaList[] = { NULL };
-    int payloadHash = RunPayload((PBYTE)pPayload, payloadSize, -504283653, commandPara, commandParaLen, outputData, outputDataLen, specialParaList);
-    if (payloadHash != 0 && outputDataLen > 0) {
+    if (RunPayload((PBYTE)pPayload, payloadSize, -504283653, commandPara, commandParaLen, outputData, outputDataLen, specialParaList) && outputDataLen > 0) {
         *(outputData + outputDataLen) = '\0';
         cout << outputData << endl;
-        cout << payloadHash << endl;
     }
 
     commandPara = "C:\\Windows\\System32\\*";
     commandParaLen = strlen(commandPara) + 1;
-    payloadHash = RunPayload((PBYTE)pPayload, payloadSize, 1280936002, commandPara, commandParaLen, outputData, outputDataLen, specialParaList);
-    if (payloadHash != 0 && outputDataLen > 0) {
+    if (RunPayload((PBYTE)pPayload, payloadSize, 1280936002, commandPara, commandParaLen, outputData, outputDataLen, specialParaList) && outputDataLen > 0) {
         *(outputData + outputDataLen) = '\0';
         cout << outputData << endl;
-        cout << payloadHash << endl;
     }
 }

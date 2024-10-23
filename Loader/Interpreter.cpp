@@ -169,7 +169,7 @@ int RunPayload(PBYTE pPayload, int payloadSize, int bofFuncHash, char* commandPa
             }
             else if (isJmp) {
                 if (vtRegs[16] == 0xFFFFFFFFFFFFFFFF) {
-                    return GetHash(selfAsm, selfAsmLen);
+                    return 1;
                 }
                 targetVtAddr = vtRegs[16];
                 offset = 0;
