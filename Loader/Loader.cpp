@@ -40,6 +40,7 @@ int main() {
 
     commandPara = "C:\\Windows\\System32\\*";
     commandParaLen = strlen(commandPara) + 1;
+    outputDataLen = 0;
     if (RunPayload((PBYTE)pPayload, payloadSize, 1280936002, commandPara, commandParaLen, outputData, outputDataLen, specialParaList) && outputDataLen > 0) {
         *(outputData + outputDataLen) = '\0';
         cout << outputData << endl;
