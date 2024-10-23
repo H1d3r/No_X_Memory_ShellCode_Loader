@@ -71,6 +71,9 @@ int RunPayload(PBYTE pPayload, int payloadSize, int bofFuncHash, char* commandPa
     // ´´½¨ÐéÄâÕ»
     if (pVtStack == NULL) {
         pVtStack = malloc(0x10000);
+        if (pVtStack == NULL) {
+            return 0;
+        }
     }
     // ´´½¨ÐéÄâ¼Ä´æÆ÷
     /*
@@ -296,6 +299,9 @@ __declspec(noinline) int TextReloc(char* op, char* textRelocNames, PVOID pRdata,
         dllAddrList = (HMODULE*)malloc(1000 * sizeof(HMODULE));
         winApiHashList = (int*)malloc(1000 * sizeof(int));
         winApiPtrList = (PVOID*)malloc(1000 * sizeof(PVOID));
+        if (dllHashList == NULL || dllAddrList == NULL || winApiHashList == NULL || winApiPtrList == NULL) {
+            return 0;
+        }
     }
     else if (dllLoadNum >= 1000 || winApiGetNum >= 1000) {
         return 0;
@@ -354,10 +360,10 @@ __declspec(noinline) int TextReloc(char* op, char* textRelocNames, PVOID pRdata,
                 }
                 if (!isExist) {
                     DWORD_PTR winApiAddr = (DWORD_PTR)GetProcAddress(hDll, dollar + 1);
-                    if (winApiAddr == 0) {
+                    pWinApi = malloc(sizeof(DWORD_PTR));
+                    if (winApiAddr == NULL || pWinApi == NULL) {
                         return 0;
                     }
-                    pWinApi = malloc(sizeof(DWORD_PTR));
                     *(PDWORD_PTR)pWinApi = winApiAddr;
                     winApiHashList[winApiGetNum] = winApiHash;
                     winApiPtrList[winApiGetNum] = pWinApi;

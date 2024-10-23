@@ -22,6 +22,9 @@ int main() {
     }
     DWORD payloadSize = GetFileSize(hFile, NULL);
     PVOID pPayload = malloc(payloadSize);
+    if (pPayload == NULL) {
+        return 0;
+    }
     DWORD readFileLen;
     ReadFile(hFile, pPayload, payloadSize, &readFileLen, NULL);
 

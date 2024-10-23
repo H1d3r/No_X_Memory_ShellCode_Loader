@@ -1,10 +1,10 @@
 import re
 import struct
 
-registers64 = ['rax', 'rbx', 'rcx', 'rdx', 'rsi', 'rdi', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15', 'rsp', 'rbp']
-registers32 = ['eax', 'ebx', 'ecx', 'edx', 'esi', 'edi', 'r8d', 'r9d', 'r10d', 'r11d', 'r12d', 'r13d', 'r14d', 'r15d', 'esp', 'ebp']
-registers16 = ['ax', 'bx', 'cx', 'dx', 'si', 'di', 'r8w', 'r9w', 'r10w', 'r11w', 'r12w', 'r13w', 'r14w', 'r15w', 'sp', 'bp']
-registersLow8 = ['al', 'bl', 'cl', 'dl', 'sil', 'dil', 'r8b', 'r9b', 'r10b', 'r11b', 'r12b', 'r13b', 'r14b', 'r15b', 'spl', 'bpl']
+reg64 = ['rax', 'rbx', 'rcx', 'rdx', 'rsi', 'rdi', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15', 'rsp', 'rbp']
+reg32 = ['eax', 'ebx', 'ecx', 'edx', 'esi', 'edi', 'r8d', 'r9d', 'r10d', 'r11d', 'r12d', 'r13d', 'r14d', 'r15d', 'esp', 'ebp']
+reg16 = ['ax', 'bx', 'cx', 'dx', 'si', 'di', 'r8w', 'r9w', 'r10w', 'r11w', 'r12w', 'r13w', 'r14w', 'r15w', 'sp', 'bp']
+regLow8 = ['al', 'bl', 'cl', 'dl', 'sil', 'dil', 'r8b', 'r9b', 'r10b', 'r11b', 'r12b', 'r13b', 'r14b', 'r15b', 'spl', 'bpl']
 
 mnemonics = ['push', 'pop', 'call', 'ret', 'movzx', 'movsxd', 'cmp', 'test', 'shl', 'shr', 'nop', 'mov', 'movabs', 'lea', 'add', 'inc', 'sub', 'dec', 'and', 'or', 'xor', 'jmp', 'je', 'jne', 'jbe', 'jl', 'jge', 'jle']
 
@@ -17,14 +17,14 @@ def FormatOp(op):
     if '[' not in op:
         if op == 'rip':
             return b'q', 'r0000000000000000'
-        if op in registers64:
-            return b'q', 'q' + hex(registers64.index(op) * 8)[2:]
-        if op in registers32:
-            return b'd', 'd' + hex(registers32.index(op) * 8)[2:]
-        if op in registers16:
-            return b'w', 'w' + hex(registers16.index(op) * 8)[2:]
-        if op in registersLow8:
-            return b'b', 'b' + hex(registersLow8.index(op) * 8)[2:]
+        if op in reg64:
+            return b'q', 'q' + hex(reg64.index(op) * 8)[2:]
+        if op in reg32:
+            return b'd', 'd' + hex(reg32.index(op) * 8)[2:]
+        if op in reg16:
+            return b'w', 'w' + hex(reg16.index(op) * 8)[2:]
+        if op in regLow8:
+            return b'b', 'b' + hex(regLow8.index(op) * 8)[2:]
 
     opBit = b'?'
     if 'ptr' in op:
@@ -42,14 +42,14 @@ def FormatOp(op):
     for word in words:
         if word == 'rip':
             op = op.replace(word, 'r0000000000000000')
-        elif word in registers64:
-            op = op.replace(word, 'q' + hex(registers64.index(word) * 8)[2:])
-        elif word in registers32:
-            op = op.replace(word, 'd' + hex(registers32.index(word) * 8)[2:])
-        elif word in registers16:
-            op = op.replace(word, 'w' + hex(registers16.index(word) * 8)[2:])
-        elif word in registersLow8:
-            op = op.replace(word, 'b' + hex(registersLow8.index(word) * 8)[2:])
+        elif word in reg64:
+            op = op.replace(word, 'q' + hex(reg64.index(word) * 8)[2:])
+        elif word in reg32:
+            op = op.replace(word, 'd' + hex(reg32.index(word) * 8)[2:])
+        elif word in reg16:
+            op = op.replace(word, 'w' + hex(reg16.index(word) * 8)[2:])
+        elif word in regLow8:
+            op = op.replace(word, 'b' + hex(regLow8.index(word) * 8)[2:])
 
     # [相对偏移] -> l相对偏移
     op = re.sub(r'^(\[.+\])', lambda match: 'l' + match.group(1).replace('[', '').replace(']', ''), op)

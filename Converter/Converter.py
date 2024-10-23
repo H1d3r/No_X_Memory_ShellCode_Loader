@@ -13,33 +13,33 @@ https://github.com/HackerCalico/No_X_BOF''')
     choice = input('\033[94m' + 'choice: ' + '\033[0m')
 
     if choice == '1':
-        with open('..\\BOF\\bof.o', 'rb') as file:
-            bof = file.read()
+        with open('..\\BOF\\bof.o', 'rb') as f:
+            bof = f.read()
 
         asm, rdata, textRelocNames, bofFuncOffsetMap = Disassembly(bof)
 
-        with open('Disassembly\\asm.txt', 'w', encoding='UTF-8') as file:
-            file.write(asm)
-        with open('Disassembly\\rdata.bin', 'wb') as file:
-            file.write(rdata)
-        with open('Disassembly\\textRelocNames.bin', 'wb') as file:
-            file.write(textRelocNames)
-        with open('Disassembly\\bofFuncOffsetMap.bin', 'wb') as file:
-            file.write(bofFuncOffsetMap)
+        with open('Disassembly\\asm.txt', 'w', encoding='UTF-8') as f:
+            f.write(asm)
+        with open('Disassembly\\rdata.bin', 'wb') as f:
+            f.write(rdata)
+        with open('Disassembly\\textRelocNames.bin', 'wb') as f:
+            f.write(textRelocNames)
+        with open('Disassembly\\bofFuncOffsetMap.bin', 'wb') as f:
+            f.write(bofFuncOffsetMap)
         print('\033[92m' + '[+] 反汇编结果生成至文件夹 Disassembly\n' + '\033[0m')
 
     elif choice == '2':
-        with open('Disassembly\\asm.txt', 'r', encoding='UTF-8') as file:
-            asm = file.read()
-        with open('Disassembly\\rdata.bin', 'rb') as file:
-            rdata = file.read()
-        with open('Disassembly\\textRelocNames.bin', 'rb') as file:
-            textRelocNames = file.read()
-        with open('Disassembly\\bofFuncOffsetMap.bin', 'rb') as file:
-            bofFuncOffsetMap = file.read()
+        with open('Disassembly\\asm.txt', 'r', encoding='UTF-8') as f:
+            asm = f.read()
+        with open('Disassembly\\rdata.bin', 'rb') as f:
+            rdata = f.read()
+        with open('Disassembly\\textRelocNames.bin', 'rb') as f:
+            textRelocNames = f.read()
+        with open('Disassembly\\bofFuncOffsetMap.bin', 'rb') as f:
+            bofFuncOffsetMap = f.read()
 
         payload = GeneratePayload(asm, rdata, textRelocNames, bofFuncOffsetMap)
 
-        with open('Payload.bin', 'wb') as file:
-            file.write(payload)
+        with open('Payload.bin', 'wb') as f:
+            f.write(payload)
         print('\033[92m' + '[+] Payload 生成至 Payload.bin\n' + '\033[0m')
